@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+    <head>
+        
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css" type="text/css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js" type="text/JavaScript"></script>
+<script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+        <style>
+            .node {
+          fill: #4F442B;
+        }
+
+        .link {
+          stroke: red;
+        }
+            .circle:hover{
+                background-color: blue;
+            }
+            h1{
+                text-align: center;
+            }
+        </style>
+        </head>
+        <div class="topnav" id="myTopnav">
+  <a href="Tree.html" class="active">Home</a>
+  <a href="loli.html">lolipop</a>
+  <a href="piechart.html">Piechart</a>
+  <a href="map.html">Map</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+            
+</div>
+     <h1>Places where products are most sold</h1>
+<div class="dummy_page">
+    
+    <body>
+        <svg style = "width: 1000; height: 500;"></svg>
+        <h1 class="text"></h1>
+        <script>
+            var radius=6;
+            var circleAttrs = {
+          cx: function(d) { return xScale(d.x); },
+          cy: function(d) { return yScale(d.y); },
+          r: radius
+      };
+            var PromiseWrapper = (xhr,d) => new Promise(resolve => xhr(d, (p) => resolve(p)));
+            Promise
+                .all([
+                    
+                    PromiseWrapper(d3.json,"data/world.geojson"),
+                    PromiseWrapper(d3.csv,"data/cities.csv")
+            ])
+            .then(resolve => {
+                createmap(resolve[0], resolve[1]);
+            });
+            
+              function createmap(countries, cities){
+                  var projection = d3.geoMollweide()
+                  .scale(120)
+                  .translate([250,250])
+                  
+                  var geopath = d3.geoPath().projection(projection)
+                  d3.select("svg")
+                  .selectAll("path")
+                  .data(countries.features)
+                  .enter()
+                  .append("path")
+                  .attr("class","countries")
+                  .attr("d",geopath)
+                  
+                  d3.select("svg")
+                  .selectAll("circle")
+                  .data(cities)
+                  .enter()
+                  .append("circle")
+                  .attr("class","cities")
+                  .attr("r",3)
+                  .attr("cx", d=>projection([d.x,d.y])[0])
+                  .attr("cy", d=>projection([d.x,d.y])[1])
+                  
+                  .style("fill", "blue")
+                   // Get attributes from circleAttrs var
+            .on("mouseover", handleMouseOver);
+            
+        }
+
+      // Create Event Handlers for mouse
+      function handleMouseOver(d) {  // Add interactivity
+
+            // Use D3 to select element, change color and size
+            d3.selectAll("h1.text")
+          .text(d.Mobile + "  " + d.country);
+          
+          }
+
+        </script></body></div>
+       
+    <div class="footer">
+  <div class="contain">
+  <div class="col">
+    <h1>Company</h1>
+    <ul>
+      <li>About</li>
+      <li>Mission</li>
+      <li>Services</li>
+      <li>Social</li>
+      <li>Get in touch</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Products</h1>
+    <ul>
+      <li>About</li>
+      <li>Mission</li>
+      <li>Services</li>
+      <li>Social</li>
+      <li>Get in touch</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Accounts</h1>
+    <ul>
+      <li>About</li>
+      <li>Mission</li>
+      <li>Services</li>
+      <li>Social</li>
+      <li>Get in touch</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Resources</h1>
+    <ul>
+      <li>Webmail</li>
+      <li>Redeem code</li>
+      <li>WHOIS lookup</li>
+      <li>Site map</li>
+      <li>Web templates</li>
+      <li>Email templates</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Support</h1>
+    <ul>
+      <li>Contact us</li>
+      <li>Web chat</li>
+      <li>Open ticket</li>
+    </ul>
+  </div>
+  <div class="col social">
+    <h1>Social</h1>
+    <ul>
+      <li><img src="https://svgshare.com/i/5fq.svg" width="32" style="width: 32px;"></li>
+      <li><img src="https://svgshare.com/i/5eA.svg" width="32" style="width: 32px;"></li>
+      <li><img src="https://svgshare.com/i/5f_.svg" width="32" style="width: 32px;"></li>
+    </ul>
+  </div>
+<div class="clearfix"></div>
+</div>
+</div>
+</html>
+
+        

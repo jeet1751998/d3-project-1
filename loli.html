@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css" type="text/css">
+<script src="https://d3js.org/d3.v4.js"></script>
+</head>
+
+    <div class="topnav" id="myTopnav">
+  <a href="Tree.html" class="active">Home</a>
+  <a href="loli.html">Lolipop</a>
+  <a href="piechart.html">Piechart</a>
+  <a href="map.html">Map</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+     
+<div class="dummy_page">
+    <h1>Total Purchase in 1 hour</h1>
+<div id="dataviz"></div>
+<script>
+
+
+var margin = {top: 10, right: 30, bottom: 40, left: 100},
+    width = 460 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+
+var svg = d3.select("#dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+d3.csv("data/browserstats1.csv", function(data) {
+
+     
+  
+  data.sort(function(b, a) {
+  return a.Value - b.Value;
+});
+
+
+var x = d3.scaleLinear()
+  .domain([0, 13000])
+  .range([ 0, width]);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
+
+
+
+var y = d3.scaleBand()
+  .range([ 0, height ])
+  .domain(data.map(function(d) { return d.Mobile; }))
+  .padding(1);
+svg.append("g")
+  .call(d3.axisLeft(y))
+
+    
+
+svg.selectAll("myline")
+  .data(data)
+  .enter()
+  .append("line")
+    .attr("x1", x(0))
+    .attr("x2", x(0))
+    .attr("y1", function(d) { return y(d.Mobile); })
+    .attr("y2", function(d) { return y(d.Mobile); })
+    .attr("stroke", "grey")
+
+
+svg.selectAll("mycircle")
+  .data(data)
+  .enter()
+  .append("circle")
+    .attr("cx", x(0) )
+    .attr("cy", function(d) { return y(d.Mobile); })
+    .attr("r", "6")
+    .style("fill", "#69b3a2")
+    .attr("stroke", "black")
+     
+    .on("mouseover",function(d){
+   alert(d.Mobile +"  "+d.Usage) 
+});
+
+svg.selectAll("circle")
+  .transition()
+  .duration(1600)
+  .attr("cx", function(d) { return x(d.Usage); })
+
+svg.selectAll("line")
+  .transition()
+  .duration(1500)
+  .attr("x1", function(d) { return x(d.Usage); })
+
+})
+
+</script>
+    </div>
+    
+    <div class="footer">
+  <div class="contain">
+  <div class="col">
+    <h1>Company</h1>
+    <ul>
+      <li>About</li>
+      <li>Mission</li>
+      <li>Services</li>
+      <li>Social</li>
+      <li>Get in touch</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Products</h1>
+    <ul>
+      <li>About</li>
+      <li>Mission</li>
+      <li>Services</li>
+      <li>Social</li>
+      <li>Get in touch</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Accounts</h1>
+    <ul>
+      <li>About</li>
+      <li>Mission</li>
+      <li>Services</li>
+      <li>Social</li>
+      <li>Get in touch</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Resources</h1>
+    <ul>
+      <li>Webmail</li>
+      <li>Redeem code</li>
+      <li>WHOIS lookup</li>
+      <li>Site map</li>
+      <li>Web templates</li>
+      <li>Email templates</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h1>Support</h1>
+    <ul>
+      <li>Contact us</li>
+      <li>Web chat</li>
+      <li>Open ticket</li>
+    </ul>
+  </div>
+  <div class="col social">
+    <h1>Social</h1>
+    <ul>
+      <li><img src="https://svgshare.com/i/5fq.svg" width="32" style="width: 32px;"></li>
+      <li><img src="https://svgshare.com/i/5eA.svg" width="32" style="width: 32px;"></li>
+      <li><img src="https://svgshare.com/i/5f_.svg" width="32" style="width: 32px;"></li>
+    </ul>
+  </div>
+<div class="clearfix"></div>
+</div>
+</div>
+     <a href="#">Refernce github</a>
+    </html>
